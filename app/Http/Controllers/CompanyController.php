@@ -8,6 +8,7 @@ use App\Http\Requests\CompanyStoreRequest;
 use App\Http\Requests\CompanyUpdateRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Notifications\CompanyCreated;
+use DB;
 class CompanyController extends Controller
 {
     /**
@@ -111,10 +112,23 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
-        $company=Company::findorfail($id);
-        $image=$company->logo;
-        $company->delete();
-        Storage::delete('public/'.$image);
-        return redirect('/company')->with('msg', 'Company deleted Successfully');
+        $company=Company::where('id',$id)->with('Employees')->first();
+        DB::beginTransaction();
+        try {
+            $image=$company->logo;
+            foreach($company->Employees as $e){
+                $e->delete();
+            }
+            $company->delete();
+
+            Storage::delete('public/'.$image);
+
+            DB::commit();
+            return redirect('/company')->with('msg', 'Company and related employees deleted Successfully');            
+        } catch (\Exception $th) {
+            DB::rollBack();
+            return redirect('/company')->with('msg', 'Sorry company can not be deleted ');  
+        }
+
     }
 }

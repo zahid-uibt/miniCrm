@@ -9,4 +9,9 @@ class Company extends Model
 {
     use Notifiable;
     protected $guarded=[];
+    
+    public function Employees()
+    {
+        return $this->hasMany(Employee::class);
+    }
 }
