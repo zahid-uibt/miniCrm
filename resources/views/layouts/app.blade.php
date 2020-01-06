@@ -33,7 +33,31 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
+                        <li class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ trans('app.company') }}
+                                    </a>
 
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="/company">
+                                        {{ trans('app.view_companies') }}
+                                        </a>
+                                        <a href="/company/create" class="dropdown-item">{{ trans('app.add_company') }}</a>
+                                    </div>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ trans('app.employee') }}
+                                    </a>
+
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="/employee">
+                                        {{ trans('app.view_employees') }}
+                                        </a>
+                                        <a href="/employee/create" class="dropdown-item">{{ trans('app.add_employee') }}</a>
+                                    </div>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -41,7 +65,7 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{ trans('app.login') }}</a>
                             </li>
                         @else
                             <li class="nav-item dropdown">
@@ -53,7 +77,7 @@
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        {{ trans('app.logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -62,6 +86,20 @@
                                 </div>
                             </li>
                         @endguest
+                        <li class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ trans('app.lang') }} 
+                                    </a>
+
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" style="{{app()->getLocale()=='en'? 'background-color:green;' :''}}" href="{{ url('lang/en') }}">
+                                          EN
+                                        </a>
+                                        <a href="{{ url('lang/fr') }}" class="dropdown-item" style="{{app()->getLocale()=='fr'? 'background-color:green;' :''}}">
+                                        FR
+                                        </a>
+                                    </div>
+                        </li>
                     </ul>
                 </div>
             </div>
